@@ -101,9 +101,9 @@ let estacionesLinea4 = [
 func mostrarLineas() {
     
     print("")
-    print("================================")
+    print("...............................")
     print("       LÍNEAS DEL METRO")
-    print("================================")
+    print("...............................")
     
     for (indice, linea) in lineas.enumerated() {
         print("\(indice + 1). \(linea)")
@@ -119,9 +119,9 @@ func mostrarLineas() {
 func mostrarEstaciones() {
     
     print("")
-    print("================================")
+    print(".................................")
     print("          ESTACIONES")
-    print("================================")
+    print("..................................")
     
     print("1. Línea 1")
     print("2. Línea 2")
@@ -181,9 +181,9 @@ func mostrarEstaciones() {
 func buscarEstacion() {
     
     print("")
-    print("================================")
+    print("................................")
     print("        BUSCAR ESTACIÓN")
-    print("================================")
+    print("................................")
     
     print("Ingrese el nombre de la estación:")
     
@@ -238,9 +238,9 @@ func buscarEstacion() {
 func informacionLinea() {
     
     print("")
-    print("================================")
+    print(".................................")
     print("      INFORMACIÓN DE LÍNEA")
-    print("================================")
+    print(".................................")
     
     print("Ingrese el número de línea:")
     
@@ -288,7 +288,7 @@ func informacionLinea() {
 func homeY() {
     
     print("")
-    print("================================")
+    print("===============================")
     print("             HOME Y")
     print("       PREGUNTAS FRECUENTES")
     print("================================")
