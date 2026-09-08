@@ -1,8 +1,8 @@
 import Foundation
 
-// ..........................
+
 // PROGRAMA: METRO DE LIMA
-// ..........................
+
 
 // DATOS DE LAS LÍNEAS
 
@@ -13,9 +13,7 @@ let lineas = [
     "Línea 4"
 ]
 
-// .....................................
 // ESTACIONES DE LA LÍNEA 1
-// .....................................
 let estacionesLinea1 = [
     "Villa El Salvador",
     "Parque Industrial",
@@ -41,9 +39,8 @@ let estacionesLinea1 = [
     "Bayóvar"
 ]
 
-// .........................................
 // ESTACIONES DE LA LÍNEA 2
-// .........................................
+
 
 let estacionesLinea2 = [
     "Municipalidad de Ate",
@@ -64,9 +61,7 @@ let estacionesLinea2 = [
     "Central"
 ]
 
-// ...............................
 // ESTACIONES DE LA LÍNEA 3
-// ...............................
 
 let estacionesLinea3 = [
     "Comas",
@@ -78,9 +73,9 @@ let estacionesLinea3 = [
     "Chorrillos"
 ]
 
-// ................................
+
 // ESTACIONES DE LA LÍNEA 4
-//.................................
+
 
 let estacionesLinea4 = [
     "Gambetta",
@@ -93,10 +88,9 @@ let estacionesLinea4 = [
 ]
 
 
-// ........................
+
 // REQUERIMIENTO 1
 // MOSTRAR LAS LÍNEAS
-// ...........................
 
 func mostrarLineas() {
     
@@ -111,10 +105,10 @@ func mostrarLineas() {
 }
 
 
-// ==========================================
+
 // REQUERIMIENTO 2
 // MOSTRAR ESTACIONES
-// ==========================================
+
 
 func mostrarEstaciones() {
     
@@ -173,10 +167,9 @@ func mostrarEstaciones() {
 }
 
 
-// ==========================================
+
 // REQUERIMIENTO 3
 // BUSCAR ESTACIÓN
-// ==========================================
 
 func buscarEstacion() {
     
@@ -230,10 +223,9 @@ func buscarEstacion() {
 }
 
 
-// ==========================================
+
 // REQUERIMIENTO 4
 // INFORMACIÓN DE UNA LÍNEA
-// ==========================================
 
 func informacionLinea() {
     
