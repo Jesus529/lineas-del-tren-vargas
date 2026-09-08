@@ -279,19 +279,17 @@ func informacionLinea() {
 }
 
 
-// ==========================================
 // REQUERIMIENTO 5
 // RAMA homeY
 // PREGUNTAS FRECUENTES
-// ==========================================
 
 func homeY() {
     
     print("")
-    print("===============================")
+    print("..............................")
     print("             HOME Y")
     print("       PREGUNTAS FRECUENTES")
-    print("================================")
+    print("...............................")
     
     print("")
     print("1. ¿Cuántas líneas tiene el programa?")
@@ -334,17 +332,16 @@ func homeY() {
 }
 
 
-// ==========================================
+
 // REQUERIMIENTO 6
 // HORARIOS DE LAS LÍNEAS
-// ==========================================
 
 func mostrarHorarios() {
     
     print("")
-    print("================================")
+    print(".................................")
     print("       HORARIOS DEL METRO")
-    print("================================")
+    print(".................................")
     
     print("1. Línea 1")
     print("2. Línea 2")
@@ -389,18 +386,16 @@ func mostrarHorarios() {
 }
 
 
-// ==========================================
 // MENÚ PRINCIPAL
-// ==========================================
 
 var continuar = true
 
 while continuar {
     
     print("")
-    print("========================================")
+    print(".......................................")
     print("          METRO DE LIMA")
-    print("========================================")
+    print("........................................")
     print("1. Mostrar líneas")
     print("2. Mostrar estaciones")
     print("3. Buscar estación")
@@ -408,7 +403,7 @@ while continuar {
     print("5. Preguntas frecuentes - homeY")
     print("6. Horarios de las líneas")
     print("7. Salir")
-    print("========================================")
+    print(".......................................")
     print("Ingrese una opción:")
     
     let opcion = Int(readLine() ?? "") ?? 0
@@ -435,9 +430,9 @@ while continuar {
         
     case 7:
         print("")
-        print("========================================")
+        print(".........................................")
         print("Gracias por utilizar el programa.")
-        print("========================================")
+        print("..........................................")
         
         continuar = false
         
