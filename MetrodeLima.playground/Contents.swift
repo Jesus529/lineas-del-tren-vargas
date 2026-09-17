@@ -1,26 +1,26 @@
 import Foundation
 
-// ======================================================
+// ==========================================
 // ESTRUCTURA DE UNA LINEA
-// ======================================================
+// ==========================================
 
 struct Linea {
     var nombre: String
     var estaciones: [String]
 }
 
-// ======================================================
+// ==========================================
 // SISTEMA METRO DE LIMA
-// ======================================================
+// ==========================================
 
 final class MetroLima {
-    
-    // --------------------------------------------------
-    // LINEAS Y ESTACIONES DEL METRO
-    // --------------------------------------------------
-    
+
+    // ==========================================
+    // LINEAS Y ESTACIONES
+    // ==========================================
+
     var lineas: [Linea] = [
-        
+
         Linea(
             nombre: "Linea 1",
             estaciones: [
@@ -48,7 +48,7 @@ final class MetroLima {
                 "Bayovar"
             ]
         ),
-        
+
         Linea(
             nombre: "Linea 2",
             estaciones: [
@@ -70,7 +70,7 @@ final class MetroLima {
                 "Central"
             ]
         ),
-        
+
         Linea(
             nombre: "Linea 3",
             estaciones: [
@@ -83,7 +83,7 @@ final class MetroLima {
                 "Chorrillos"
             ]
         ),
-        
+
         Linea(
             nombre: "Linea 4",
             estaciones: [
@@ -97,1019 +97,1373 @@ final class MetroLima {
             ]
         )
     ]
-    
-    // --------------------------------------------------
-    // DATOS DE LA TARJETA
-    // --------------------------------------------------
-    
+
+    // ==========================================
+    // TARJETA
+    // ==========================================
+
     var saldoTarjeta: Double = 10.00
     let precioViaje: Double = 1.50
-    
-    // ==================================================
-    // FUNCION PARA MOSTRAR TITULOS
-    // ==================================================
-    
-    func mostrarTitulo(_ titulo: String) {
+
+    // ==========================================
+    // PERSONAS POR ESTACION
+    // ==========================================
+
+    var personasPorEstacion: [String: Int] = [
+
+        "Villa El Salvador": 850,
+        "Parque Industrial": 620,
+        "Pumacurco": 500,
+        "San Juan": 900,
+        "Atocongo": 1200,
+        "Jorge Chavez": 1500,
+        "Ayacucho": 1100,
+        "Cabitos": 1000,
+        "Angamos": 1800,
+        "San Borja Sur": 1300,
+        "La Cultura": 2000,
+        "Nicolas Arriola": 900,
+        "Gamarra": 3500,
+        "Miguel Grau": 2200,
+        "Presbitero Maestro": 800,
+        "Caja de Agua": 900,
+        "Piramide del Sol": 1100,
+        "Los Postes": 1000,
+        "San Carlos": 950,
+        "San Martin": 1400,
+        "Santa Rosa": 1200,
+        "Bayovar": 1400,
+
+        "Municipalidad de Ate": 1000,
+        "Vista Alegre": 900,
+        "Prolongacion Javier Prado": 1200,
+        "Mercado Santa Anita": 1900,
+        "Hermilio Valdizan": 800,
+        "Colectora Industrial": 700,
+        "Ovalo Santa Anita": 1800,
+        "Evitamiento": 1300,
+        "Elio": 900,
+        "San Juan de Dios": 1000,
+        "Plaza Manco Capac": 1500,
+        "Cangallo": 900,
+        "28 de Julio": 2100,
+        "Bolognesi": 1200,
+        "Plaza Grau": 1900,
+        "Central": 3000,
+
+        "Comas": 1700,
+        "Independencia": 1600,
+        "Los Olivos": 1800,
+        "San Martin de Porres": 2000,
+        "Centro de Lima": 3500,
+        "Barranco": 1300,
+        "Chorrillos": 1800,
+
+        "Gambetta": 800,
+        "Canta Callao": 900,
+        "Bertolotto": 700,
+        "El Olivar": 850,
+        "Javier Prado": 2200,
+        "La Marina": 1900
+    ]
+
+    // ==========================================
+    // DESCRIPCIONES
+    // ==========================================
+
+    var descripcionesEstaciones: [String: String] = [
+
+        "Villa El Salvador":
+            "Estacion ubicada en Villa El Salvador. Cuenta con bastante movimiento de pasajeros y diferentes accesos hacia la zona.",
+
+        "Parque Industrial":
+            "Estacion cercana a una zona industrial y comercial. Tiene movimiento de trabajadores y pasajeros durante el dia.",
+
+        "Atocongo":
+            "Estacion ubicada en una zona comercial del sur de Lima. Tiene bastante movimiento de pasajeros.",
+
+        "Jorge Chavez":
+            "Estacion importante de la Linea 1 y punto de conexion registrado con otra linea.",
+
+        "Ayacucho":
+            "Estacion ubicada cerca de zonas residenciales y comerciales. Durante las horas punta puede tener bastante movimiento.",
+
+        "Angamos":
+            "Estacion cercana a zonas comerciales, oficinas y avenidas principales.",
+
+        "La Cultura":
+            "Estacion ubicada cerca de importantes zonas culturales, educativas y comerciales.",
+
+        "Gamarra":
+            "Una de las estaciones con mayor movimiento. La zona es conocida por sus comercios, galerias y tiendas.",
+
+        "Miguel Grau":
+            "Estacion cercana a avenidas importantes y zonas comerciales del centro de Lima.",
+
+        "Bayovar":
+            "Estacion final de la Linea 1. Atiende a pasajeros de diferentes zonas de San Juan de Lurigancho.",
+
+        "Municipalidad de Ate":
+            "Estacion ubicada en Ate. Permite el acceso de pasajeros de diferentes zonas del distrito.",
+
+        "Mercado Santa Anita":
+            "Estacion cercana a una importante zona comercial y recibe gran cantidad de pasajeros.",
+
+        "Ovalo Santa Anita":
+            "Estacion ubicada cerca de una zona de bastante movimiento vehicular y comercial.",
+
+        "28 de Julio":
+            "Estacion importante de la Linea 2 y permite el desplazamiento hacia diferentes zonas.",
+
+        "Plaza Grau":
+            "Estacion cercana a importantes vias y zonas del centro de Lima.",
+
+        "Central":
+            "Estacion importante de la Linea 2 y una de las zonas con mayor movimiento.",
+
+        "Comas":
+            "Estacion ubicada en el norte de Lima y atiende a pasajeros de la zona de Comas.",
+
+        "Independencia":
+            "Estacion ubicada en una zona comercial y residencial del norte de Lima.",
+
+        "Los Olivos":
+            "Estacion ubicada en una zona residencial y comercial con bastante movimiento.",
+
+        "Centro de Lima":
+            "Estacion cercana a diferentes puntos historicos y comerciales del centro de Lima.",
+
+        "Barranco":
+            "Estacion cercana a una zona turistica y cultural con restaurantes y espacios artisticos.",
+
+        "Chorrillos":
+            "Estacion ubicada en el sur de Lima y atiende diferentes zonas residenciales.",
+
+        "Gambetta":
+            "Estacion ubicada en la zona del Callao.",
+
+        "Canta Callao":
+            "Estacion cercana a importantes avenidas del Callao.",
+
+        "Javier Prado":
+            "Estacion cercana a una de las avenidas principales de Lima.",
+
+        "La Marina":
+            "Estacion cercana a una zona comercial y a importantes avenidas."
+    ]
+
+    // ==========================================
+    // TITULO
+    // ==========================================
+
+    func mostrarTitulo() {
+
         print("")
-        print("==================================================")
-        print("              \(titulo)")
-        print("==================================================")
+        print("==============================================")
+        print("               METRO DE LIMA")
+        print("==============================================")
     }
-    
-    // ==================================================
-    // FUNCION PARA OBTENER ESTACIONES DE UNA LINEA
-    // ==================================================
-    
-    func obtenerEstaciones(_ numeroLinea: Int) -> [String] {
-        
-        if numeroLinea >= 1 && numeroLinea <= lineas.count {
-            return lineas[numeroLinea - 1].estaciones
-        }
-        
-        return []
-    }
-    
-    // ==================================================
-    // NORMALIZAR TEXTO
-    // Permite buscar sin importar mayusculas/minusculas
-    // ==================================================
-    
+
+    // ==========================================
+    // NORMALIZAR
+    // ==========================================
+
     func normalizar(_ texto: String) -> String {
+
         return texto
             .trimmingCharacters(in: .whitespacesAndNewlines)
             .lowercased()
     }
-    
-    // ==================================================
-    // 1. MOSTRAR LINEAS
-    // ==================================================
-    
+
+    // ==========================================
+    // MOSTRAR LINEAS
+    // ==========================================
+
     func mostrarLineas() {
-        
-        mostrarTitulo("LINEAS DEL METRO DE LIMA")
-        
+
+        mostrarTitulo()
+
+        print("\nLINEAS DISPONIBLES")
+
         for (indice, linea) in lineas.enumerated() {
+
             print("\(indice + 1). \(linea.nombre)")
         }
-        
-        print("")
     }
-    
-    // ==================================================
-    // 2. MOSTRAR ESTACIONES
-    // ==================================================
-    
+
+    // ==========================================
+    // MOSTRAR TODAS LAS ESTACIONES
+    // ==========================================
+
     func mostrarEstaciones() {
-        
-        mostrarTitulo("ESTACIONES")
-        
+
+        mostrarTitulo()
+
         for (indice, linea) in lineas.enumerated() {
-            
-            print("")
+
+            print("\n==========================================")
             print("\(indice + 1). \(linea.nombre)")
-            print("------------------------------------------")
-            
+            print("==========================================")
+
             for (posicion, estacion) in linea.estaciones.enumerated() {
+
                 print("\(posicion + 1). \(estacion)")
             }
         }
-        
-        print("")
     }
-    
-    // ==================================================
-    // 3. BUSCAR ESTACION
-    // ==================================================
-    
-    func buscarEstacion() {
-        
-        mostrarTitulo("BUSCAR ESTACION")
-        
-        print("Ingrese el nombre de la estacion:")
-        
-        guard let entrada = readLine(), !entrada.isEmpty else {
-            print("Nombre no valido.")
+
+    // ==========================================
+    // MOSTRAR ESTACIONES DE UNA LINEA
+    // ==========================================
+
+    func mostrarEstacionesDeLinea(_ numeroLinea: Int) {
+
+        guard numeroLinea >= 1 &&
+              numeroLinea <= lineas.count else {
+
             return
         }
-        
-        let buscada = normalizar(entrada)
+
+        let linea = lineas[numeroLinea - 1]
+
+        print("\n==========================================")
+        print("              \(linea.nombre)")
+        print("==========================================")
+
+        for (indice, estacion) in linea.estaciones.enumerated() {
+
+            print("\(indice + 1). \(estacion)")
+        }
+    }
+
+    // ==========================================
+    // ELEGIR ESTACION
+    // ==========================================
+
+    func elegirEstacion(
+        numeroLinea: Int,
+        mensaje: String
+    ) -> Int? {
+
+        guard numeroLinea >= 1 &&
+              numeroLinea <= lineas.count else {
+
+            return nil
+        }
+
+        let estaciones = lineas[numeroLinea - 1].estaciones
+
+        print("\n\(mensaje)")
+
+        guard let entrada = readLine(),
+              let numero = Int(entrada),
+              numero >= 1,
+              numero <= estaciones.count else {
+
+            print("Numero de estacion invalido.")
+            return nil
+        }
+
+        return numero - 1
+    }
+
+    // ==========================================
+    // BUSCAR ESTACION
+    // ==========================================
+
+    func buscarEstacion() {
+
+        print("\n===== BUSCAR ESTACION =====")
+
+        print("Ingrese el nombre de la estacion:")
+
+        let nombre = readLine() ?? ""
+
         var encontrada = false
-        
+
         for (indice, linea) in lineas.enumerated() {
-            
-            for estacion in linea.estaciones {
-                
-                if normalizar(estacion) == buscada {
-                    
-                    print("")
-                    print("Estacion encontrada")
+
+            for (posicion, estacion) in linea.estaciones.enumerated() {
+
+                if normalizar(estacion) == normalizar(nombre) {
+
+                    print("\nEstacion encontrada.")
                     print("Estacion: \(estacion)")
                     print("Linea: \(linea.nombre)")
-                    
+                    print("Posicion: \(posicion + 1)")
+
                     encontrada = true
                 }
             }
+
+            _ = indice
         }
-        
+
         if !encontrada {
-            print("")
-            print("No se encontro la estacion.")
+
+            print("\nNo se encontro la estacion.")
         }
     }
-    
-    // ==================================================
+
+    // ==========================================
     // ENCONTRAR ESTACION
-    // ==================================================
-    
-    func encontrarEstacion(_ nombre: String) -> [(linea: Int, posicion: Int, nombre: String)] {
-        
-        let buscada = normalizar(nombre)
-        
-        var resultados: [(linea: Int, posicion: Int, nombre: String)] = []
-        
+    // ==========================================
+
+    func encontrarEstacion(
+        _ nombre: String
+    ) -> (linea: Int, posicion: Int)? {
+
         for (indiceLinea, linea) in lineas.enumerated() {
-            
-            for (indiceEstacion, estacion) in linea.estaciones.enumerated() {
-                
-                if normalizar(estacion) == buscada {
-                    
-                    resultados.append(
-                        (
-                            linea: indiceLinea + 1,
-                            posicion: indiceEstacion,
-                            nombre: estacion
-                        )
-                    )
+
+            for (posicion, estacion) in linea.estaciones.enumerated() {
+
+                if normalizar(estacion) == normalizar(nombre) {
+
+                    return (indiceLinea, posicion)
                 }
             }
         }
-        
-        return resultados
+
+        return nil
     }
-    
-    // ==================================================
-    // 4. INFORMACION DE UNA LINEA
-    // ==================================================
-    
+
+    // ==========================================
+    // INFORMACION DE LINEA
+    // ==========================================
+
     func informacionLinea() {
-        
-        mostrarTitulo("INFORMACION DE UNA LINEA")
-        
+
+        print("\n===== INFORMACION DE LINEA =====")
+
         mostrarLineas()
-        
-        print("Seleccione una linea:")
-        
+
+        print("\nIngrese el numero de linea:")
+
         guard let entrada = readLine(),
               let numero = Int(entrada),
               numero >= 1,
               numero <= lineas.count else {
-            
-            print("Linea no valida.")
+
+            print("Numero de linea invalido.")
             return
         }
-        
+
         let linea = lineas[numero - 1]
-        
-        print("")
-        print("Linea: \(linea.nombre)")
-        print("Cantidad de estaciones: \(linea.estaciones.count)")
-        
-        print("")
-        print("Estaciones:")
-        
-        for (indice, estacion) in linea.estaciones.enumerated() {
-            print("\(indice + 1). \(estacion)")
-        }
+
+        print("\nLINEA SELECCIONADA")
+        print("--------------------------------")
+        print("Nombre: \(linea.nombre)")
+        print("Estaciones: \(linea.estaciones.count)")
+
+        print("\nPrimera estacion:")
+        print(linea.estaciones.first ?? "Sin estaciones")
+
+        print("\nUltima estacion:")
+        print(linea.estaciones.last ?? "Sin estaciones")
     }
-    
-    // ==================================================
-    // 5. DONDE ME ENCUENTRO
-    // Muestra estaciones siguientes, anteriores y
-    // posibles conexiones.
-    // ==================================================
-    
+
+    // ==========================================
+    // ESTACION ACTUAL
+    // ==========================================
+
     func estacionActual() {
-        
-        mostrarTitulo("DONDE ME ENCUENTRO")
-        
-        print("Ingrese la estacion donde se encuentra:")
-        
-        guard let entrada = readLine(), !entrada.isEmpty else {
-            print("Estacion no valida.")
+
+        print("\n===== DONDE ME ENCUENTRO =====")
+
+        mostrarLineas()
+
+        print("\nSeleccione la linea donde se encuentra:")
+
+        guard let entrada = readLine(),
+              let numeroLinea = Int(entrada),
+              numeroLinea >= 1,
+              numeroLinea <= lineas.count else {
+
+            print("Linea invalida.")
             return
         }
-        
-        let resultados = encontrarEstacion(entrada)
-        
-        if resultados.isEmpty {
-            
-            print("")
-            print("No se encontro la estacion.")
+
+        mostrarEstacionesDeLinea(numeroLinea)
+
+        guard let posicion = elegirEstacion(
+            numeroLinea: numeroLinea,
+            mensaje: "\nSeleccione su estacion actual:"
+        ) else {
+
             return
         }
-        
-        for resultado in resultados {
-            
-            let numeroLinea = resultado.linea
-            let posicion = resultado.posicion
-            let estaciones = lineas[numeroLinea - 1].estaciones
-            
-            print("")
-            print("Estacion actual: \(resultado.nombre)")
-            print("Linea: \(lineas[numeroLinea - 1].nombre)")
-            
-            // Estaciones siguientes
-            print("")
-            print("SIGUIENTES ESTACIONES:")
-            
-            if posicion < estaciones.count - 1 {
-                
-                let limite = min(posicion + 5, estaciones.count - 1)
-                
-                for i in (posicion + 1)...limite {
-                    print("- \(estaciones[i])")
-                }
-                
-            } else {
-                print("- Fin de la linea")
-            }
-            
-            // Estaciones anteriores
-            print("")
-            print("ESTACIONES ANTERIORES:")
-            
-            if posicion > 0 {
-                
-                let inicio = max(0, posicion - 5)
-                
-                for i in stride(from: posicion - 1, through: inicio, by: -1) {
-                    print("- \(estaciones[i])")
-                }
-                
-            } else {
-                print("- Inicio de la linea")
-            }
-            
-            // Mostrar conexiones
-            mostrarConexiones(
-                nombreEstacion: resultado.nombre,
-                lineaActual: numeroLinea
-            )
-        }
-    }
-    
-    // ==================================================
-    // MOSTRAR CONEXIONES
-    // ==================================================
-    
-    func mostrarConexiones(nombreEstacion: String, lineaActual: Int) {
-        
-        var conexiones: [String] = []
-        
-        for (indice, linea) in lineas.enumerated() {
-            
-            if indice + 1 == lineaActual {
-                continue
-            }
-            
-            for estacion in linea.estaciones {
-                
-                if normalizar(estacion) == normalizar(nombreEstacion) {
-                    conexiones.append(linea.nombre)
-                }
-            }
-        }
-        
-        print("")
-        print("CONEXIONES:")
-        
-        if conexiones.isEmpty {
-            print("No hay conexiones registradas.")
-        } else {
-            
-            for conexion in conexiones {
-                print("- Puedes conectar con \(conexion)")
-            }
-        }
-    }
-    
-    // ==================================================
-    // 6. PLANIFICACION DE VIAJE
-    // Calcula estaciones restantes y conexiones.
-    // ==================================================
-    
-    func planificarViaje() {
-        
-        mostrarTitulo("PLANIFICACION DE VIAJE")
-        
-        print("Ingrese estacion de origen:")
-        
-        guard let origen = readLine(), !origen.isEmpty else {
-            print("Origen no valido.")
-            return
-        }
-        
-        print("Ingrese estacion de destino:")
-        
-        guard let destino = readLine(), !destino.isEmpty else {
-            print("Destino no valido.")
-            return
-        }
-        
-        let origenes = encontrarEstacion(origen)
-        let destinos = encontrarEstacion(destino)
-        
-        if origenes.isEmpty {
-            print("")
-            print("No se encontro la estacion de origen.")
-            return
-        }
-        
-        if destinos.isEmpty {
-            print("")
-            print("No se encontro la estacion de destino.")
-            return
-        }
-        
-        // --------------------------------------------------
-        // CASO 1: MISMA LINEA
-        // --------------------------------------------------
-        
-        for inicio in origenes {
-            
-            for fin in destinos {
-                
-                if inicio.linea == fin.linea {
-                    
-                    let estaciones = lineas[inicio.linea - 1].estaciones
-                    
-                    let cantidad = abs(
-                        fin.posicion - inicio.posicion
-                    )
-                    
-                    print("")
-                    print("RUTA ENCONTRADA")
-                    print("------------------------------------------")
-                    print("Linea: \(lineas[inicio.linea - 1].nombre)")
-                    print("Origen: \(inicio.nombre)")
-                    print("Destino: \(fin.nombre)")
-                    print("Estaciones restantes: \(cantidad)")
-                    
-                    print("")
-                    print("RECORRIDO:")
-                    
-                    if inicio.posicion <= fin.posicion {
-                        
-                        for i in inicio.posicion...fin.posicion {
-                            print("- \(estaciones[i])")
-                        }
-                        
-                    } else {
-                        
-                        for i in stride(
-                            from: inicio.posicion,
-                            through: fin.posicion,
-                            by: -1
-                        ) {
-                            print("- \(estaciones[i])")
-                        }
-                    }
-                    
-                    return
-                }
-            }
-        }
-        
-        // --------------------------------------------------
-        // CASO 2: DIFERENTES LINEAS
-        // --------------------------------------------------
-        
-        print("")
-        print("Las estaciones estan en diferentes lineas.")
-        print("Buscando una estacion de conexion...")
-        
-        for inicio in origenes {
-            
-            for fin in destinos {
-                
-                let lineaOrigen = lineas[inicio.linea - 1].estaciones
-                let lineaDestino = lineas[fin.linea - 1].estaciones
-                
-                for (posOrigen, conexionOrigen) in lineaOrigen.enumerated() {
-                    
-                    for (posDestino, conexionDestino) in lineaDestino.enumerated() {
-                        
-                        if normalizar(conexionOrigen) ==
-                            normalizar(conexionDestino) {
-                            
-                            let tramo1 = abs(
-                                posOrigen - inicio.posicion
-                            )
-                            
-                            let tramo2 = abs(
-                                fin.posicion - posDestino
-                            )
-                            
-                            print("")
-                            print("RUTA ENCONTRADA")
-                            print("------------------------------------------")
-                            print("Linea de origen: \(lineas[inicio.linea - 1].nombre)")
-                            print("Linea de destino: \(lineas[fin.linea - 1].nombre)")
-                            print("Estacion de conexion: \(conexionOrigen)")
-                            print("Estaciones hasta conexion: \(tramo1)")
-                            print("Estaciones despues de conexion: \(tramo2)")
-                            print("Total de estaciones: \(tramo1 + tramo2)")
-                            
-                            print("")
-                            print("PRIMER TRAMO:")
-                            
-                            if inicio.posicion <= posOrigen {
-                                
-                                for i in inicio.posicion...posOrigen {
-                                    print("- \(lineaOrigen[i])")
-                                }
-                                
-                            } else {
-                                
-                                for i in stride(
-                                    from: inicio.posicion,
-                                    through: posOrigen,
-                                    by: -1
-                                ) {
-                                    print("- \(lineaOrigen[i])")
-                                }
-                            }
-                            
-                            print("")
-                            print("CAMBIO DE LINEA EN: \(conexionOrigen)")
-                            
-                            print("")
-                            print("SEGUNDO TRAMO:")
-                            
-                            if posDestino <= fin.posicion {
-                                
-                                for i in posDestino...fin.posicion {
-                                    print("- \(lineaDestino[i])")
-                                }
-                                
-                            } else {
-                                
-                                for i in stride(
-                                    from: posDestino,
-                                    through: fin.posicion,
-                                    by: -1
-                                ) {
-                                    print("- \(lineaDestino[i])")
-                                }
-                            }
-                            
-                            return
-                        }
-                    }
-                }
-            }
-        }
-        
-        print("")
-        print("No existe una conexion registrada entre esas lineas.")
-    }
-    
-    // ==================================================
-    // 7. TARJETA DE TRANSPORTE
-    // Permite consultar, recargar y realizar viajes.
-    // ==================================================
-    
-    func consultarSaldo() {
-        
-        mostrarTitulo("SALDO DE TARJETA")
-        
-        print(
-            String(
-                format: "Saldo actual: S/ %.2f",
-                saldoTarjeta
-            )
+
+        let linea = lineas[numeroLinea - 1]
+
+        let estacion = linea.estaciones[posicion]
+
+        mostrarInformacionEstacion(
+            estacion,
+            numeroLinea: numeroLinea - 1,
+            posicion: posicion
         )
     }
-    
+
+    // ==========================================
+    // INFORMACION COMPLETA DE ESTACION
+    // ==========================================
+
+    func mostrarInformacionEstacion(
+        _ estacion: String,
+        numeroLinea: Int,
+        posicion: Int
+    ) {
+
+        print("\n==========================================")
+        print("          LLEGASTE A LA ESTACION")
+        print("==========================================")
+
+        print("Estacion: \(estacion)")
+        print("Linea: \(lineas[numeroLinea].nombre)")
+
+        let personas = personasPorEstacion[estacion] ?? 500
+
+        print("Personas aproximadas: \(personas)")
+        print("Salidas disponibles: 2")
+
+        print("\nSERVICIOS")
+        print("- Informacion")
+        print("- Seguridad")
+        print("- Acceso para personas con discapacidad")
+
+        print("\nDESCRIPCION")
+
+        if let descripcion = descripcionesEstaciones[estacion] {
+
+            print(descripcion)
+
+        } else {
+
+            print(
+                "Esta estacion cuenta con accesos hacia diferentes calles y zonas cercanas."
+            )
+        }
+
+        print("\nESTACION ANTERIOR")
+
+        if posicion > 0 {
+
+            print("<- \(lineas[numeroLinea].estaciones[posicion - 1])")
+
+        } else {
+
+            print("Esta es la primera estacion de la linea.")
+        }
+
+        print("\nSIGUIENTE ESTACION")
+
+        if posicion < lineas[numeroLinea].estaciones.count - 1 {
+
+            print("-> \(lineas[numeroLinea].estaciones[posicion + 1])")
+
+        } else {
+
+            print("Esta es la ultima estacion de la linea.")
+        }
+
+        mostrarConexiones(estacion)
+    }
+
+    // ==========================================
+    // CONEXIONES
+    // ==========================================
+
+    func mostrarConexiones(_ estacion: String) {
+
+        var conexiones: [String] = []
+
+        for linea in lineas {
+
+            for estacionLinea in linea.estaciones {
+
+                if normalizar(estacionLinea) ==
+                   normalizar(estacion) {
+
+                    conexiones.append(linea.nombre)
+                    break
+                }
+            }
+        }
+
+        if conexiones.count > 1 {
+
+            print("\n==========================================")
+            print("         CONEXIONES DISPONIBLES")
+            print("==========================================")
+
+            for linea in conexiones {
+
+                print("- \(linea)")
+            }
+
+            print("\nPuedes cambiar de linea en esta estacion.")
+
+        } else {
+
+            print("\nNo hay conexion registrada en esta estacion.")
+        }
+    }
+
+    // ==========================================
+    // PLANIFICAR VIAJE
+    // ==========================================
+
+    func planificarViaje() {
+
+        print("\n==========================================")
+        print("          PLANIFICACION DE VIAJE")
+        print("==========================================")
+
+        print("\nPrimero selecciona la linea donde estas.")
+
+        mostrarLineas()
+
+        print("\nIngrese el numero de su linea de origen:")
+
+        guard let entradaOrigen = readLine(),
+              let numeroLineaOrigen = Int(entradaOrigen),
+              numeroLineaOrigen >= 1,
+              numeroLineaOrigen <= lineas.count else {
+
+            print("Linea invalida.")
+            return
+        }
+
+        // ------------------------------------------
+        // ESTACION DE ORIGEN
+        // ------------------------------------------
+
+        mostrarEstacionesDeLinea(numeroLineaOrigen)
+
+        guard let posicionOrigen = elegirEstacion(
+            numeroLinea: numeroLineaOrigen,
+            mensaje: "\nSeleccione su estacion de origen:"
+        ) else {
+
+            return
+        }
+
+        let estacionOrigen =
+            lineas[numeroLineaOrigen - 1].estaciones[posicionOrigen]
+
+        // ------------------------------------------
+        // DESTINO
+        // ------------------------------------------
+
+        print("\nAhora seleccione la linea de destino.")
+
+        mostrarLineas()
+
+        print("\nIngrese el numero de su linea de destino:")
+
+        guard let entradaDestino = readLine(),
+              let numeroLineaDestino = Int(entradaDestino),
+              numeroLineaDestino >= 1,
+              numeroLineaDestino <= lineas.count else {
+
+            print("Linea invalida.")
+            return
+        }
+
+        mostrarEstacionesDeLinea(numeroLineaDestino)
+
+        guard let posicionDestino = elegirEstacion(
+            numeroLinea: numeroLineaDestino,
+            mensaje: "\nSeleccione su estacion de destino:"
+        ) else {
+
+            return
+        }
+
+        let estacionDestino =
+            lineas[numeroLineaDestino - 1].estaciones[posicionDestino]
+
+        // ------------------------------------------
+        // MOSTRAR RESUMEN
+        // ------------------------------------------
+
+        print("\n==========================================")
+        print("              RESUMEN")
+        print("==========================================")
+
+        print("Origen: \(estacionOrigen)")
+        print("Destino: \(estacionDestino)")
+
+        // ==========================================
+        // MISMA LINEA
+        // ==========================================
+
+        if numeroLineaOrigen == numeroLineaDestino {
+
+            let totalEstaciones =
+                abs(posicionDestino - posicionOrigen)
+
+            print("Linea: \(lineas[numeroLineaOrigen - 1].nombre)")
+            print("Estaciones restantes: \(totalEstaciones)")
+
+            print("\n==========================================")
+            print("              TU RUTA")
+            print("==========================================")
+
+            if posicionOrigen <= posicionDestino {
+
+                for i in posicionOrigen...posicionDestino {
+
+                    if i == posicionOrigen {
+
+                        print("🚉 \(lineas[numeroLineaOrigen - 1].estaciones[i])")
+
+                    } else {
+
+                        print(" ↓")
+                        print("🚉 \(lineas[numeroLineaOrigen - 1].estaciones[i])")
+                    }
+                }
+
+            } else {
+
+                for i in stride(
+                    from: posicionOrigen,
+                    through: posicionDestino,
+                    by: -1
+                ) {
+
+                    if i == posicionOrigen {
+
+                        print("🚉 \(lineas[numeroLineaOrigen - 1].estaciones[i])")
+
+                    } else {
+
+                        print(" ↓")
+                        print("🚉 \(lineas[numeroLineaOrigen - 1].estaciones[i])")
+                    }
+                }
+            }
+
+            print("\nTotal de estaciones: \(totalEstaciones)")
+
+            // PAGO
+
+            if realizarPagoViaje() {
+
+                mostrarInformacionEstacion(
+                    estacionDestino,
+                    numeroLinea: numeroLineaDestino - 1,
+                    posicion: posicionDestino
+                )
+            }
+
+        } else {
+
+            // ==========================================
+            // DIFERENTES LINEAS
+            // ==========================================
+
+            print("\nEl origen y destino estan en diferentes lineas.")
+
+            let estacionesOrigen =
+                lineas[numeroLineaOrigen - 1].estaciones
+
+            let estacionesDestino =
+                lineas[numeroLineaDestino - 1].estaciones
+
+            var estacionConexion: String? = nil
+
+            var posicionConexionOrigen: Int? = nil
+
+            var posicionConexionDestino: Int? = nil
+
+            // BUSCAR CONEXION
+
+            for (i, estacionA) in estacionesOrigen.enumerated() {
+
+                for (j, estacionB) in estacionesDestino.enumerated() {
+
+                    if normalizar(estacionA) ==
+                       normalizar(estacionB) {
+
+                        estacionConexion = estacionA
+                        posicionConexionOrigen = i
+                        posicionConexionDestino = j
+
+                        break
+                    }
+                }
+
+                if estacionConexion != nil {
+                    break
+                }
+            }
+
+            guard let conexion = estacionConexion,
+                  let conexionOrigen = posicionConexionOrigen,
+                  let conexionDestino = posicionConexionDestino else {
+
+                print("\nNo existe una conexion registrada entre estas lineas.")
+
+                print("Puedes crear una desde el modo administrador.")
+
+                return
+            }
+
+            let estacionesAntes =
+                abs(conexionOrigen - posicionOrigen)
+
+            let estacionesDespues =
+                abs(posicionDestino - conexionDestino)
+
+            let totalEstaciones =
+                estacionesAntes + estacionesDespues
+
+            print("\n==========================================")
+            print("           CONEXION ENCONTRADA")
+            print("==========================================")
+
+            print("Estacion de conexion: \(conexion)")
+
+            print("\n\(lineas[numeroLineaOrigen - 1].nombre)")
+            print("Estaciones hasta la conexion: \(estacionesAntes)")
+
+            print("\n\(lineas[numeroLineaDestino - 1].nombre)")
+            print("Estaciones despues de la conexion: \(estacionesDespues)")
+
+            print("\nTotal de estaciones: \(totalEstaciones)")
+
+            // ------------------------------------------
+            // RUTA PRIMERA LINEA
+            // ------------------------------------------
+
+            print("\n==========================================")
+            print("         RUTA - \(lineas[numeroLineaOrigen - 1].nombre)")
+            print("==========================================")
+
+            if posicionOrigen <= conexionOrigen {
+
+                for i in posicionOrigen...conexionOrigen {
+
+                    if i == posicionOrigen {
+
+                        print("🚉 \(estacionesOrigen[i])")
+
+                    } else {
+
+                        print(" ↓")
+                        print("🚉 \(estacionesOrigen[i])")
+                    }
+                }
+
+            } else {
+
+                for i in stride(
+                    from: posicionOrigen,
+                    through: conexionOrigen,
+                    by: -1
+                ) {
+
+                    if i == posicionOrigen {
+
+                        print("🚉 \(estacionesOrigen[i])")
+
+                    } else {
+
+                        print(" ↓")
+                        print("🚉 \(estacionesOrigen[i])")
+                    }
+                }
+            }
+
+            // ------------------------------------------
+            // CAMBIO DE LINEA
+            // ------------------------------------------
+
+            print("\n==========================================")
+            print("          CAMBIO DE LINEA")
+            print("==========================================")
+
+            print("Bajate en: \(conexion)")
+            print("Ahora cambia a \(lineas[numeroLineaDestino - 1].nombre)")
+
+            // ------------------------------------------
+            // RUTA SEGUNDA LINEA
+            // ------------------------------------------
+
+            print("\n==========================================")
+            print("         RUTA - \(lineas[numeroLineaDestino - 1].nombre)")
+            print("==========================================")
+
+            if conexionDestino <= posicionDestino {
+
+                for i in conexionDestino...posicionDestino {
+
+                    if i == conexionDestino {
+
+                        print("🚉 \(estacionesDestino[i])")
+
+                    } else {
+
+                        print(" ↓")
+                        print("🚉 \(estacionesDestino[i])")
+                    }
+                }
+
+            } else {
+
+                for i in stride(
+                    from: conexionDestino,
+                    through: posicionDestino,
+                    by: -1
+                ) {
+
+                    if i == conexionDestino {
+
+                        print("🚉 \(estacionesDestino[i])")
+
+                    } else {
+
+                        print(" ↓")
+                        print("🚉 \(estacionesDestino[i])")
+                    }
+                }
+            }
+
+            print("\nTotal de estaciones: \(totalEstaciones)")
+
+            // PAGO
+
+            if realizarPagoViaje() {
+
+                mostrarInformacionEstacion(
+                    estacionDestino,
+                    numeroLinea: numeroLineaDestino - 1,
+                    posicion: posicionDestino
+                )
+            }
+        }
+    }
+
+    // ==========================================
+    // PAGO DEL VIAJE
+    // ==========================================
+
+    func realizarPagoViaje() -> Bool {
+
+        print("\n==========================================")
+        print("              PAGO DEL VIAJE")
+        print("==========================================")
+
+        print(
+            "Saldo actual: S/ \(String(format: "%.2f", saldoTarjeta))"
+        )
+
+        print(
+            "Costo del viaje: S/ \(String(format: "%.2f", precioViaje))"
+        )
+
+        if saldoTarjeta < precioViaje {
+
+            print("\nSALDO INSUFICIENTE")
+            print("Recarga tu tarjeta antes de realizar el viaje.")
+
+            return false
+        }
+
+        saldoTarjeta -= precioViaje
+
+        print("\nViaje pagado correctamente.")
+
+        print(
+            "Saldo restante: S/ \(String(format: "%.2f", saldoTarjeta))"
+        )
+
+        return true
+    }
+
+    // ==========================================
+    // CONSULTAR SALDO
+    // ==========================================
+
+    func consultarSaldo() {
+
+        print("\n===== SALDO DE TARJETA =====")
+
+        print(
+            "Saldo disponible: S/ \(String(format: "%.2f", saldoTarjeta))"
+        )
+    }
+
+    // ==========================================
+    // RECARGAR
+    // ==========================================
+
     func recargarTarjeta() {
-        
-        mostrarTitulo("RECARGAR TARJETA")
-        
-        print("Ingrese el monto a recargar:")
-        
+
+        print("\n===== RECARGAR TARJETA =====")
+
+        print("Ingrese el monto:")
+
         guard let entrada = readLine(),
               let monto = Double(entrada),
               monto > 0 else {
-            
-            print("Monto no valido.")
+
+            print("Monto invalido.")
             return
         }
-        
+
         saldoTarjeta += monto
-        
-        print("")
-        print("Recarga realizada correctamente.")
-        
+
+        print("\nRecarga realizada correctamente.")
+
         print(
-            String(
-                format: "Nuevo saldo: S/ %.2f",
-                saldoTarjeta
-            )
+            "Nuevo saldo: S/ \(String(format: "%.2f", saldoTarjeta))"
         )
     }
-    
+
+    // ==========================================
+    // REALIZAR VIAJE RAPIDO
+    // ==========================================
+
     func realizarViaje() {
-        
-        mostrarTitulo("REALIZAR VIAJE")
-        
-        print(
-            String(
-                format: "Precio del viaje: S/ %.2f",
-                precioViaje
-            )
-        )
-        
-        print(
-            String(
-                format: "Saldo actual: S/ %.2f",
-                saldoTarjeta
-            )
-        )
-        
-        if saldoTarjeta < precioViaje {
-            
-            print("")
-            print("Saldo insuficiente.")
-            print("Realice una recarga.")
-            return
-        }
-        
-        saldoTarjeta -= precioViaje
-        
-        print("")
-        print("Viaje realizado correctamente.")
-        
-        print(
-            String(
-                format: "Saldo restante: S/ %.2f",
-                saldoTarjeta
-            )
-        )
+
+        print("\n===== REALIZAR VIAJE =====")
+
+        _ = realizarPagoViaje()
     }
-    
+
+    // ==========================================
+    // MENU TARJETA
+    // ==========================================
+
     func menuTarjeta() {
-        
+
         var continuar = true
-        
+
         while continuar {
-            
-            mostrarTitulo("TARJETA DE TRANSPORTE")
-            
+
+            print("\n==========================================")
+            print("          TARJETA DE TRANSPORTE")
+            print("==========================================")
+
             print("1. Consultar saldo")
             print("2. Recargar tarjeta")
             print("3. Realizar viaje")
             print("4. Volver")
-            
-            print("")
-            print("Seleccione una opcion:")
-            
-            guard let entrada = readLine(),
-                  let opcion = Int(entrada) else {
-                
-                print("Opcion no valida.")
-                continue
-            }
-            
+
+            print("\nSeleccione una opcion:")
+
+            let opcion = readLine() ?? ""
+
             switch opcion {
-                
-            case 1:
+
+            case "1":
                 consultarSaldo()
-                
-            case 2:
+
+            case "2":
                 recargarTarjeta()
-                
-            case 3:
+
+            case "3":
                 realizarViaje()
-                
-            case 4:
+
+            case "4":
                 continuar = false
-                
+
             default:
-                print("Opcion no valida.")
+                print("Opcion invalida.")
             }
         }
     }
-    
-    // ==================================================
-    // 8. PREGUNTAS FRECUENTES
-    // ==================================================
-    
+
+    // ==========================================
+    // PREGUNTAS FRECUENTES
+    // ==========================================
+
     func preguntasFrecuentes() {
-        
-        mostrarTitulo("PREGUNTAS FRECUENTES")
-        
-        print("1. ¿Cuanto cuesta un viaje?")
-        print("   El precio configurado es S/ 1.50.")
-        
-        print("")
-        print("2. ¿Puedo recargar mi tarjeta?")
-        print("   Si, desde Tarjeta de transporte.")
-        
-        print("")
-        print("3. ¿Puedo saber las estaciones cercanas?")
-        print("   Si, usando Donde me encuentro.")
-        
-        print("")
-        print("4. ¿Puedo planificar un viaje?")
-        print("   Si, usando Planificacion de viaje.")
-        
-        print("")
-        print("5. ¿Puedo buscar una estacion?")
-        print("   Si, usando Buscar estacion.")
+
+        print("\n===== PREGUNTAS FRECUENTES =====")
+
+        print("\n1. Cuanto cuesta el viaje?")
+        print("El costo simulado es S/ 1.50.")
+
+        print("\n2. Puedo recargar mi tarjeta?")
+        print("Si, desde Tarjeta de transporte.")
+
+        print("\n3. Puedo buscar una estacion?")
+        print("Si, desde Buscar estacion.")
+
+        print("\n4. Puedo planificar mi viaje?")
+        print("Si, puedes seleccionar linea y estacion.")
+
+        print("\n5. Que pasa si no tengo saldo?")
+        print("El sistema no permite realizar el viaje.")
     }
-    
-    // ==================================================
-    // 9. HORARIOS
-    // ==================================================
-    
+
+    // ==========================================
+    // HORARIOS
+    // ==========================================
+
     func mostrarHorarios() {
-        
-        mostrarTitulo("HORARIOS")
-        
-        print("Lunes a Viernes: 05:30 - 22:00")
-        print("Sabados:         05:30 - 22:00")
-        print("Domingos:        06:00 - 22:00")
+
+        print("\n===== HORARIOS DEL METRO =====")
+
+        print("\nLunes a viernes:")
+        print("05:00 AM - 11:00 PM")
+
+        print("\nSabados:")
+        print("05:00 AM - 11:00 PM")
+
+        print("\nDomingos y feriados:")
+        print("05:30 AM - 10:00 PM")
     }
-    
-    // ==================================================
-    // 10. MODO ADMINISTRADOR
-    // ==================================================
-    
+
+    // ==========================================
+    // ADMINISTRADOR
+    // ==========================================
+
     func modoAdministrador() {
-        
-        mostrarTitulo("MODO ADMINISTRADOR")
-        
+
+        print("\n==========================================")
+        print("          MODO ADMINISTRADOR")
+        print("==========================================")
+
         print("Ingrese la contraseña:")
-        
-        guard let password = readLine() else {
-            return
-        }
-        
+
+        let password = readLine() ?? ""
+
         if password != "1234" {
-            
-            print("")
+
             print("Contraseña incorrecta.")
             return
         }
-        
-        print("")
-        print("Acceso autorizado.")
-        
+
+        print("\nAcceso permitido.")
+
         menuAdministrador()
     }
-    
-    // ==================================================
-    // MENU ADMINISTRADOR
-    // ==================================================
-    
+
+    // ==========================================
+    // MENU ADMIN
+    // ==========================================
+
     func menuAdministrador() {
-        
+
         var continuar = true
-        
+
         while continuar {
-            
-            mostrarTitulo("MENU ADMINISTRADOR")
-            
+
+            print("\n==========================================")
+            print("          MENU ADMINISTRADOR")
+            print("==========================================")
+
             print("1. Agregar estacion")
             print("2. Insertar estacion")
-            print("3. Crear linea")
+            print("3. Crear nueva linea")
             print("4. Crear estacion de conexion")
             print("5. Ver estaciones")
             print("6. Volver")
-            
-            print("")
-            print("Seleccione una opcion:")
-            
-            guard let entrada = readLine(),
-                  let opcion = Int(entrada) else {
-                
-                print("Opcion no valida.")
-                continue
-            }
-            
+
+            print("\nSeleccione una opcion:")
+
+            let opcion = readLine() ?? ""
+
             switch opcion {
-                
-            case 1:
+
+            case "1":
                 agregarEstacion()
-                
-            case 2:
+
+            case "2":
                 insertarEstacion()
-                
-            case 3:
+
+            case "3":
                 crearLinea()
-                
-            case 4:
+
+            case "4":
                 crearEstacionConexion()
-                
-            case 5:
+
+            case "5":
                 mostrarEstaciones()
-                
-            case 6:
+
+            case "6":
                 continuar = false
-                
+
             default:
-                print("Opcion no valida.")
+                print("Opcion invalida.")
             }
         }
     }
-    
-    // ==================================================
+
+    // ==========================================
     // AGREGAR ESTACION
-    // ==================================================
-    
+    // ==========================================
+
     func agregarEstacion() {
-        
-        mostrarTitulo("AGREGAR ESTACION")
-        
+
+        print("\n===== AGREGAR ESTACION =====")
+
         mostrarLineas()
-        
-        print("Seleccione la linea:")
-        
+
+        print("\nIngrese el numero de linea:")
+
         guard let entrada = readLine(),
-              let numeroLinea = Int(entrada),
-              numeroLinea >= 1,
-              numeroLinea <= lineas.count else {
-            
-            print("Linea no valida.")
+              let numero = Int(entrada),
+              numero >= 1,
+              numero <= lineas.count else {
+
+            print("Linea invalida.")
             return
         }
-        
+
         print("Ingrese el nombre de la nueva estacion:")
-        
-        guard let nombre = readLine(),
-              !nombre.isEmpty else {
-            
-            print("Nombre no valido.")
+
+        let nombre = readLine() ?? ""
+
+        if nombre.isEmpty {
+
+            print("El nombre no puede estar vacio.")
             return
         }
-        
-        lineas[numeroLinea - 1].estaciones.append(nombre)
-        
-        print("")
-        print("Estacion agregada correctamente.")
-        print("Linea: \(lineas[numeroLinea - 1].nombre)")
+
+        lineas[numero - 1].estaciones.append(nombre)
+
+        personasPorEstacion[nombre] = 500
+
+        descripcionesEstaciones[nombre] =
+            "Esta es una nueva estacion registrada por el administrador."
+
+        print("\nEstacion agregada correctamente.")
         print("Estacion: \(nombre)")
+        print("Linea: \(lineas[numero - 1].nombre)")
     }
-    
-    // ==================================================
+
+    // ==========================================
     // INSERTAR ESTACION
-    // ==================================================
-    
+    // ==========================================
+
     func insertarEstacion() {
-        
-        mostrarTitulo("INSERTAR ESTACION")
-        
+
+        print("\n===== INSERTAR ESTACION =====")
+
         mostrarLineas()
-        
-        print("Seleccione la linea:")
-        
+
+        print("\nIngrese el numero de linea:")
+
         guard let entrada = readLine(),
-              let numeroLinea = Int(entrada),
-              numeroLinea >= 1,
-              numeroLinea <= lineas.count else {
-            
-            print("Linea no valida.")
+              let numero = Int(entrada),
+              numero >= 1,
+              numero <= lineas.count else {
+
+            print("Linea invalida.")
             return
         }
-        
-        print("")
-        print("Estaciones actuales:")
-        
-        for (indice, estacion) in lineas[numeroLinea - 1].estaciones.enumerated() {
-            print("\(indice + 1). \(estacion)")
-        }
-        
-        print("")
-        print("Ingrese la posicion:")
-        
-        guard let posicionEntrada = readLine(),
-              let posicion = Int(posicionEntrada),
+
+        mostrarEstacionesDeLinea(numero)
+
+        print("\nIngrese la posicion donde desea insertar:")
+
+        guard let entradaPosicion = readLine(),
+              let posicion = Int(entradaPosicion),
               posicion >= 1,
-              posicion <= lineas[numeroLinea - 1].estaciones.count + 1 else {
-            
-            print("Posicion no valida.")
+              posicion <= lineas[numero - 1].estaciones.count + 1 else {
+
+            print("Posicion invalida.")
             return
         }
-        
-        print("Ingrese el nombre de la nueva estacion:")
-        
-        guard let nombre = readLine(),
-              !nombre.isEmpty else {
-            
-            print("Nombre no valido.")
+
+        print("Ingrese el nombre de la estacion:")
+
+        let nombre = readLine() ?? ""
+
+        if nombre.isEmpty {
+
+            print("Nombre invalido.")
             return
         }
-        
-        lineas[numeroLinea - 1].estaciones.insert(
+
+        lineas[numero - 1].estaciones.insert(
             nombre,
             at: posicion - 1
         )
-        
-        print("")
-        print("Estacion insertada correctamente.")
+
+        personasPorEstacion[nombre] = 500
+
+        descripcionesEstaciones[nombre] =
+            "Esta es una nueva estacion registrada por el administrador."
+
+        print("\nEstacion insertada correctamente.")
     }
-    
-    // ==================================================
-    // CREAR NUEVA LINEA
-    // ==================================================
-    
+
+    // ==========================================
+    // CREAR LINEA
+    // ==========================================
+
     func crearLinea() {
-        
-        mostrarTitulo("CREAR NUEVA LINEA")
-        
+
+        print("\n===== CREAR NUEVA LINEA =====")
+
         print("Ingrese el nombre de la nueva linea:")
-        
-        guard let nombre = readLine(),
-              !nombre.isEmpty else {
-            
-            print("Nombre no valido.")
+
+        let nombre = readLine() ?? ""
+
+        if nombre.isEmpty {
+
+            print("Nombre invalido.")
             return
         }
-        
-        // Verificamos que no exista otra igual
-        for linea in lineas {
-            
-            if normalizar(linea.nombre) == normalizar(nombre) {
-                
-                print("")
-                print("Esa linea ya existe.")
-                return
-            }
-        }
-        
-        lineas.append(
-            Linea(
-                nombre: nombre,
-                estaciones: []
-            )
+
+        let nuevaLinea = Linea(
+            nombre: nombre,
+            estaciones: []
         )
-        
-        print("")
-        print("Nueva linea creada correctamente.")
-        print("Linea: \(nombre)")
+
+        lineas.append(nuevaLinea)
+
+        print("\nNueva linea creada correctamente.")
+        print("Nombre: \(nombre)")
+        print("Numero: \(lineas.count)")
     }
-    
-    // ==================================================
-    // CREAR ESTACION DE CONEXION
-    // ==================================================
-    
+
+    // ==========================================
+    // CREAR CONEXION
+    // ==========================================
+
     func crearEstacionConexion() {
-        
-        mostrarTitulo("CREAR ESTACION DE CONEXION")
-        
-        if lineas.count < 2 {
-            
-            print("Se necesitan al menos dos lineas.")
-            return
-        }
-        
+
+        print("\n===== CREAR ESTACION DE CONEXION =====")
+
         mostrarLineas()
-        
-        print("Seleccione la primera linea:")
-        
-        guard let entrada1 = readLine(),
-              let linea1 = Int(entrada1),
-              linea1 >= 1,
-              linea1 <= lineas.count else {
-            
-            print("Linea no valida.")
+
+        print("\nIngrese la primera linea:")
+
+        guard let entradaA = readLine(),
+              let lineaA = Int(entradaA),
+              lineaA >= 1,
+              lineaA <= lineas.count else {
+
+            print("Linea invalida.")
             return
         }
-        
-        print("Seleccione la segunda linea:")
-        
-        guard let entrada2 = readLine(),
-              let linea2 = Int(entrada2),
-              linea2 >= 1,
-              linea2 <= lineas.count,
-              linea2 != linea1 else {
-            
-            print("Linea no valida.")
+
+        print("Ingrese la segunda linea:")
+
+        guard let entradaB = readLine(),
+              let lineaB = Int(entradaB),
+              lineaB >= 1,
+              lineaB <= lineas.count,
+              lineaA != lineaB else {
+
+            print("Linea invalida.")
             return
         }
-        
+
         print("Ingrese el nombre de la estacion de conexion:")
-        
-        guard let nombre = readLine(),
-              !nombre.isEmpty else {
-            
-            print("Nombre no valido.")
+
+        let nombre = readLine() ?? ""
+
+        if nombre.isEmpty {
+
+            print("Nombre invalido.")
             return
         }
-        
-        // La misma estacion se registra en las dos lineas
-        lineas[linea1 - 1].estaciones.append(nombre)
-        lineas[linea2 - 1].estaciones.append(nombre)
-        
-        print("")
-        print("Estacion de conexion creada correctamente.")
+
+        lineas[lineaA - 1].estaciones.append(nombre)
+        lineas[lineaB - 1].estaciones.append(nombre)
+
+        personasPorEstacion[nombre] = 1500
+
+        descripcionesEstaciones[nombre] =
+            "Esta estacion funciona como punto de conexion entre dos lineas del sistema."
+
+        print("\n==========================================")
+        print("      CONEXION CREADA CORRECTAMENTE")
+        print("==========================================")
+
         print("Estacion: \(nombre)")
-        print("")
-        print("Conecta:")
-        print("- \(lineas[linea1 - 1].nombre)")
-        print("- \(lineas[linea2 - 1].nombre)")
+        print("Linea 1: \(lineas[lineaA - 1].nombre)")
+        print("Linea 2: \(lineas[lineaB - 1].nombre)")
     }
-    
-    // ==================================================
-    // MENU PRINCIPAL
-    // ==================================================
-    
+
+    // ==========================================
+    // INICIAR
+    // ==========================================
+
     func iniciar() {
-        
+
         var continuar = true
-        
+
         while continuar {
-            
-            mostrarTitulo("METRO DE LIMA")
-            
+
+            mostrarTitulo()
+
+            print("\nMENU PRINCIPAL")
+            print("------------------------------------------")
             print("1. Mostrar lineas")
             print("2. Mostrar estaciones")
             print("3. Buscar estacion")
             print("4. Informacion de una linea")
-            print("5. ¿Donde me encuentro?")
+            print("5. Donde me encuentro?")
             print("6. Planificar viaje")
             print("7. Tarjeta de transporte")
             print("8. Preguntas frecuentes")
             print("9. Horarios")
             print("10. Administrador")
             print("11. Salir")
-            
-            print("")
-            print("Ingrese una opcion:")
-            
-            guard let entrada = readLine(),
-                  let opcion = Int(entrada) else {
-                
-                print("")
-                print("Ingrese una opcion valida.")
-                continue
-            }
-            
+            print("------------------------------------------")
+
+            print("\nIngrese una opcion:")
+
+            let opcion = readLine() ?? ""
+
             switch opcion {
-                
-            case 1:
+
+            case "1":
                 mostrarLineas()
-                
-            case 2:
+
+            case "2":
                 mostrarEstaciones()
-                
-            case 3:
+
+            case "3":
                 buscarEstacion()
-                
-            case 4:
+
+            case "4":
                 informacionLinea()
-                
-            case 5:
+
+            case "5":
                 estacionActual()
-                
-            case 6:
+
+            case "6":
                 planificarViaje()
-                
-            case 7:
+
+            case "7":
                 menuTarjeta()
-                
-            case 8:
+
+            case "8":
                 preguntasFrecuentes()
-                
-            case 9:
+
+            case "9":
                 mostrarHorarios()
-                
-            case 10:
+
+            case "10":
                 modoAdministrador()
-                
-            case 11:
-                print("")
-                print("Gracias por usar el sistema Metro de Lima.")
+
+            case "11":
+
+                print("\nGracias por usar el sistema Metro de Lima.")
                 continuar = false
-                
+
             default:
-                print("")
-                print("Opcion no valida.")
-            }
-            
-            if continuar {
-                
-                print("")
-                print("Presione ENTER para continuar...")
-                _ = readLine()
+
+                print("\nOpcion invalida.")
             }
         }
     }
 }
 
-// ======================================================
-// INICIO DEL PROGRAMA
-// ======================================================
+// ==========================================
+// EJECUTAR PROGRAMA
+// ==========================================
 
 let metro = MetroLima()
 metro.iniciar()
