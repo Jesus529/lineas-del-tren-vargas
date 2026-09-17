@@ -1,128 +1,183 @@
 
     // ==================================================
-    // 7. TARJETA DE TRANSPORTE
-    // Permite consultar, recargar y realizar viajes.
+    // 6. PLANIFICACION DE VIAJE
+    // Calcula estaciones restantes y conexiones.
     // ==================================================
     
-    func consultarSaldo() {
+    func planificarViaje() {
         
-        mostrarTitulo("SALDO DE TARJETA")
+        mostrarTitulo("PLANIFICACION DE VIAJE")
         
-        print(
-            String(
-                format: "Saldo actual: S/ %.2f",
-                saldoTarjeta
-            )
-        )
-    }
-    
-    func recargarTarjeta() {
+        print("Ingrese estacion de origen:")
         
-        mostrarTitulo("RECARGAR TARJETA")
-        
-        print("Ingrese el monto a recargar:")
-        
-        guard let entrada = readLine(),
-              let monto = Double(entrada),
-              monto > 0 else {
-            
-            print("Monto no valido.")
+        guard let origen = readLine(), !origen.isEmpty else {
+            print("Origen no valido.")
             return
         }
         
-        saldoTarjeta += monto
+        print("Ingrese estacion de destino:")
         
-        print("")
-        print("Recarga realizada correctamente.")
-        
-        print(
-            String(
-                format: "Nuevo saldo: S/ %.2f",
-                saldoTarjeta
-            )
-        )
-    }
-    
-    func realizarViaje() {
-        
-        mostrarTitulo("REALIZAR VIAJE")
-        
-        print(
-            String(
-                format: "Precio del viaje: S/ %.2f",
-                precioViaje
-            )
-        )
-        
-        print(
-            String(
-                format: "Saldo actual: S/ %.2f",
-                saldoTarjeta
-            )
-        )
-        
-        if saldoTarjeta < precioViaje {
-            
-            print("")
-            print("Saldo insuficiente.")
-            print("Realice una recarga.")
+        guard let destino = readLine(), !destino.isEmpty else {
+            print("Destino no valido.")
             return
         }
         
-        saldoTarjeta -= precioViaje
+        let origenes = encontrarEstacion(origen)
+        let destinos = encontrarEstacion(destino)
         
-        print("")
-        print("Viaje realizado correctamente.")
-        
-        print(
-            String(
-                format: "Saldo restante: S/ %.2f",
-                saldoTarjeta
-            )
-        )
-    }
-    
-    func menuTarjeta() {
-        
-        var continuar = true
-        
-        while continuar {
-            
-            mostrarTitulo("TARJETA DE TRANSPORTE")
-            
-            print("1. Consultar saldo")
-            print("2. Recargar tarjeta")
-            print("3. Realizar viaje")
-            print("4. Volver")
-            
+        if origenes.isEmpty {
             print("")
-            print("Seleccione una opcion:")
+            print("No se encontro la estacion de origen.")
+            return
+        }
+        
+        if destinos.isEmpty {
+            print("")
+            print("No se encontro la estacion de destino.")
+            return
+        }
+        
+        // --------------------------------------------------
+        // CASO 1: MISMA LINEA
+        // --------------------------------------------------
+        
+        for inicio in origenes {
             
-            guard let entrada = readLine(),
-                  let opcion = Int(entrada) else {
+            for fin in destinos {
                 
-                print("Opcion no valida.")
-                continue
-            }
-            
-            switch opcion {
-                
-            case 1:
-                consultarSaldo()
-                
-            case 2:
-                recargarTarjeta()
-                
-            case 3:
-                realizarViaje()
-                
-            case 4:
-                continuar = false
-                
-            default:
-                print("Opcion no valida.")
+                if inicio.linea == fin.linea {
+                    
+                    let estaciones = lineas[inicio.linea - 1].estaciones
+                    
+                    let cantidad = abs(
+                        fin.posicion - inicio.posicion
+                    )
+                    
+                    print("")
+                    print("RUTA ENCONTRADA")
+                    print("------------------------------------------")
+                    print("Linea: \(lineas[inicio.linea - 1].nombre)")
+                    print("Origen: \(inicio.nombre)")
+                    print("Destino: \(fin.nombre)")
+                    print("Estaciones restantes: \(cantidad)")
+                    
+                    print("")
+                    print("RECORRIDO:")
+                    
+                    if inicio.posicion <= fin.posicion {
+                        
+                        for i in inicio.posicion...fin.posicion {
+                            print("- \(estaciones[i])")
+                        }
+                        
+                    } else {
+                        
+                        for i in stride(
+                            from: inicio.posicion,
+                            through: fin.posicion,
+                            by: -1
+                        ) {
+                            print("- \(estaciones[i])")
+                        }
+                    }
+                    
+                    return
+                }
             }
         }
+        
+        // --------------------------------------------------
+        // CASO 2: DIFERENTES LINEAS
+        // --------------------------------------------------
+        
+        print("")
+        print("Las estaciones estan en diferentes lineas.")
+        print("Buscando una estacion de conexion...")
+        
+        for inicio in origenes {
+            
+            for fin in destinos {
+                
+                let lineaOrigen = lineas[inicio.linea - 1].estaciones
+                let lineaDestino = lineas[fin.linea - 1].estaciones
+                
+                for (posOrigen, conexionOrigen) in lineaOrigen.enumerated() {
+                    
+                    for (posDestino, conexionDestino) in lineaDestino.enumerated() {
+                        
+                        if normalizar(conexionOrigen) ==
+                            normalizar(conexionDestino) {
+                            
+                            let tramo1 = abs(
+                                posOrigen - inicio.posicion
+                            )
+                            
+                            let tramo2 = abs(
+                                fin.posicion - posDestino
+                            )
+                            
+                            print("")
+                            print("RUTA ENCONTRADA")
+                            print("------------------------------------------")
+                            print("Linea de origen: \(lineas[inicio.linea - 1].nombre)")
+                            print("Linea de destino: \(lineas[fin.linea - 1].nombre)")
+                            print("Estacion de conexion: \(conexionOrigen)")
+                            print("Estaciones hasta conexion: \(tramo1)")
+                            print("Estaciones despues de conexion: \(tramo2)")
+                            print("Total de estaciones: \(tramo1 + tramo2)")
+                            
+                            print("")
+                            print("PRIMER TRAMO:")
+                            
+                            if inicio.posicion <= posOrigen {
+                                
+                                for i in inicio.posicion...posOrigen {
+                                    print("- \(lineaOrigen[i])")
+                                }
+                                
+                            } else {
+                                
+                                for i in stride(
+                                    from: inicio.posicion,
+                                    through: posOrigen,
+                                    by: -1
+                                ) {
+                                    print("- \(lineaOrigen[i])")
+                                }
+                            }
+                            
+                            print("")
+                            print("CAMBIO DE LINEA EN: \(conexionOrigen)")
+                            
+                            print("")
+                            print("SEGUNDO TRAMO:")
+                            
+                            if posDestino <= fin.posicion {
+                                
+                                for i in posDestino...fin.posicion {
+                                    print("- \(lineaDestino[i])")
+                                }
+                                
+                            } else {
+                                
+                                for i in stride(
+                                    from: posDestino,
+                                    through: fin.posicion,
+                                    by: -1
+                                ) {
+                                    print("- \(lineaDestino[i])")
+                                }
+                            }
+                            
+                            return
+                        }
+                    }
+                }
+            }
+        }
+        
+        print("")
+        print("No existe una conexion registrada entre esas lineas.")
     }
     
     
