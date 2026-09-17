@@ -1,437 +1,183 @@
-import Foundation
 
-
-// PROGRAMA: METRO DE LIMA
-
-
-// DATOS DE LAS LÍNEAS
-
-let lineas = [
-    "Línea 1",
-    "Línea 2",
-    "Línea 3",
-    "Línea 4"
-]
-
-// ESTACIONES DE LA LÍNEA 1
-let estacionesLinea1 = [
-    "Villa El Salvador",
-    "Parque Industrial",
-    "Pumacurco",
-    "San Juan",
-    "Atocongo",
-    "Jorge Chávez",
-    "Ayacucho",
-    "Cabitos",
-    "Angamos",
-    "San Borja Sur",
-    "La Cultura",
-    "Nicolás Arriola",
-    "Gamarra",
-    "Miguel Grau",
-    "Presbítero Maestro",
-    "Caja de Agua",
-    "Pirámide del Sol",
-    "Los Postes",
-    "San Carlos",
-    "San Martín",
-    "Santa Rosa",
-    "Bayóvar"
-]
-
-// ESTACIONES DE LA LÍNEA 2
-
-
-let estacionesLinea2 = [
-    "Municipalidad de Ate",
-    "Vista Alegre",
-    "Prolongación Javier Prado",
-    "Mercado Santa Anita",
-    "Hermilio Valdizán",
-    "Colectora Industrial",
-    "Óvalo Santa Anita",
-    "Evitamiento",
-    "Elio",
-    "San Juan de Dios",
-    "Plaza Manco Cápac",
-    "Cangallo",
-    "28 de Julio",
-    "Bolognesi",
-    "Plaza Grau",
-    "Central"
-]
-
-// ESTACIONES DE LA LÍNEA 3
-
-let estacionesLinea3 = [
-    "Comas",
-    "Independencia",
-    "Los Olivos",
-    "San Martín de Porres",
-    "Centro de Lima",
-    "Barranco",
-    "Chorrillos"
-]
-
-
-// ESTACIONES DE LA LÍNEA 4
-
-
-let estacionesLinea4 = [
-    "Gambetta",
-    "Canta Callao",
-    "Bertolotto",
-    "El Olivar",
-    "Javier Prado",
-    "La Marina",
-    "Jorge Chávez"
-]
-
-
-
-// REQUERIMIENTO 1
-// MOSTRAR LAS LÍNEAS
-
-func mostrarLineas() {
+    // ==================================================
+    // 6. PLANIFICACION DE VIAJE
+    // Calcula estaciones restantes y conexiones.
+    // ==================================================
     
-    print("")
-    print("...............................")
-    print("       LÍNEAS DEL METRO")
-    print("...............................")
-    
-    for (indice, linea) in lineas.enumerated() {
-        print("\(indice + 1). \(linea)")
-    }
-}
-
-
-
-// REQUERIMIENTO 2
-// MOSTRAR ESTACIONES
-
-
-func mostrarEstaciones() {
-    
-    print("")
-    print(".................................")
-    print("          ESTACIONES")
-    print("..................................")
-    
-    print("1. Línea 1")
-    print("2. Línea 2")
-    print("3. Línea 3")
-    print("4. Línea 4")
-    print("")
-    print("Seleccione una línea:")
-    
-    let opcion = Int(readLine() ?? "") ?? 0
-    
-    switch opcion {
+    func planificarViaje() {
         
-    case 1:
-        print("")
-        print("ESTACIONES DE LA LÍNEA 1")
+        mostrarTitulo("PLANIFICACION DE VIAJE")
         
-        for estacion in estacionesLinea1 {
-            print("- \(estacion)")
+        print("Ingrese estacion de origen:")
+        
+        guard let origen = readLine(), !origen.isEmpty else {
+            print("Origen no valido.")
+            return
         }
         
-    case 2:
-        print("")
-        print("ESTACIONES DE LA LÍNEA 2")
+        print("Ingrese estacion de destino:")
         
-        for estacion in estacionesLinea2 {
-            print("- \(estacion)")
+        guard let destino = readLine(), !destino.isEmpty else {
+            print("Destino no valido.")
+            return
         }
         
-    case 3:
-        print("")
-        print("ESTACIONES DE LA LÍNEA 3")
+        let origenes = encontrarEstacion(origen)
+        let destinos = encontrarEstacion(destino)
         
-        for estacion in estacionesLinea3 {
-            print("- \(estacion)")
+        if origenes.isEmpty {
+            print("")
+            print("No se encontro la estacion de origen.")
+            return
         }
         
-    case 4:
-        print("")
-        print("ESTACIONES DE LA LÍNEA 4")
-        
-        for estacion in estacionesLinea4 {
-            print("- \(estacion)")
+        if destinos.isEmpty {
+            print("")
+            print("No se encontro la estacion de destino.")
+            return
         }
         
-    default:
+        // --------------------------------------------------
+        // CASO 1: MISMA LINEA
+        // --------------------------------------------------
+        
+        for inicio in origenes {
+            
+            for fin in destinos {
+                
+                if inicio.linea == fin.linea {
+                    
+                    let estaciones = lineas[inicio.linea - 1].estaciones
+                    
+                    let cantidad = abs(
+                        fin.posicion - inicio.posicion
+                    )
+                    
+                    print("")
+                    print("RUTA ENCONTRADA")
+                    print("------------------------------------------")
+                    print("Linea: \(lineas[inicio.linea - 1].nombre)")
+                    print("Origen: \(inicio.nombre)")
+                    print("Destino: \(fin.nombre)")
+                    print("Estaciones restantes: \(cantidad)")
+                    
+                    print("")
+                    print("RECORRIDO:")
+                    
+                    if inicio.posicion <= fin.posicion {
+                        
+                        for i in inicio.posicion...fin.posicion {
+                            print("- \(estaciones[i])")
+                        }
+                        
+                    } else {
+                        
+                        for i in stride(
+                            from: inicio.posicion,
+                            through: fin.posicion,
+                            by: -1
+                        ) {
+                            print("- \(estaciones[i])")
+                        }
+                    }
+                    
+                    return
+                }
+            }
+        }
+        
+        // --------------------------------------------------
+        // CASO 2: DIFERENTES LINEAS
+        // --------------------------------------------------
+        
         print("")
-        print("Opción incorrecta.")
+        print("Las estaciones estan en diferentes lineas.")
+        print("Buscando una estacion de conexion...")
+        
+        for inicio in origenes {
+            
+            for fin in destinos {
+                
+                let lineaOrigen = lineas[inicio.linea - 1].estaciones
+                let lineaDestino = lineas[fin.linea - 1].estaciones
+                
+                for (posOrigen, conexionOrigen) in lineaOrigen.enumerated() {
+                    
+                    for (posDestino, conexionDestino) in lineaDestino.enumerated() {
+                        
+                        if normalizar(conexionOrigen) ==
+                            normalizar(conexionDestino) {
+                            
+                            let tramo1 = abs(
+                                posOrigen - inicio.posicion
+                            )
+                            
+                            let tramo2 = abs(
+                                fin.posicion - posDestino
+                            )
+                            
+                            print("")
+                            print("RUTA ENCONTRADA")
+                            print("------------------------------------------")
+                            print("Linea de origen: \(lineas[inicio.linea - 1].nombre)")
+                            print("Linea de destino: \(lineas[fin.linea - 1].nombre)")
+                            print("Estacion de conexion: \(conexionOrigen)")
+                            print("Estaciones hasta conexion: \(tramo1)")
+                            print("Estaciones despues de conexion: \(tramo2)")
+                            print("Total de estaciones: \(tramo1 + tramo2)")
+                            
+                            print("")
+                            print("PRIMER TRAMO:")
+                            
+                            if inicio.posicion <= posOrigen {
+                                
+                                for i in inicio.posicion...posOrigen {
+                                    print("- \(lineaOrigen[i])")
+                                }
+                                
+                            } else {
+                                
+                                for i in stride(
+                                    from: inicio.posicion,
+                                    through: posOrigen,
+                                    by: -1
+                                ) {
+                                    print("- \(lineaOrigen[i])")
+                                }
+                            }
+                            
+                            print("")
+                            print("CAMBIO DE LINEA EN: \(conexionOrigen)")
+                            
+                            print("")
+                            print("SEGUNDO TRAMO:")
+                            
+                            if posDestino <= fin.posicion {
+                                
+                                for i in posDestino...fin.posicion {
+                                    print("- \(lineaDestino[i])")
+                                }
+                                
+                            } else {
+                                
+                                for i in stride(
+                                    from: posDestino,
+                                    through: fin.posicion,
+                                    by: -1
+                                ) {
+                                    print("- \(lineaDestino[i])")
+                                }
+                            }
+                            
+                            return
+                        }
+                    }
+                }
+            }
+        }
+        
+        print("")
+        print("No existe una conexion registrada entre esas lineas.")
     }
-}
-
-
-
-// REQUERIMIENTO 3
-// BUSCAR ESTACIÓN
-
-func buscarEstacion() {
     
-    print("")
-    print("................................")
-    print("        BUSCAR ESTACIÓN")
-    print("................................")
     
-    print("Ingrese el nombre de la estación:")
-    
-    let busqueda = readLine() ?? ""
-    let texto = busqueda.lowercased()
-    
-    if estacionesLinea1.contains(where: {
-        $0.lowercased().contains(texto)
-    }) {
-        
-        print("")
-        print("Estación encontrada.")
-        print("Pertenece a la Línea 1.")
-        
-    } else if estacionesLinea2.contains(where: {
-        $0.lowercased().contains(texto)
-    }) {
-        
-        print("")
-        print("Estación encontrada.")
-        print("Pertenece a la Línea 2.")
-        
-    } else if estacionesLinea3.contains(where: {
-        $0.lowercased().contains(texto)
-    }) {
-        
-        print("")
-        print("Estación encontrada.")
-        print("Pertenece a la Línea 3.")
-        
-    } else if estacionesLinea4.contains(where: {
-        $0.lowercased().contains(texto)
-    }) {
-        
-        print("")
-        print("Estación encontrada.")
-        print("Pertenece a la Línea 4.")
-        
-    } else {
-        
-        print("")
-        print("No se encontró la estación.")
-    }
-}
-
-
-
-// REQUERIMIENTO 4
-// INFORMACIÓN DE UNA LÍNEA
-
-func informacionLinea() {
-    
-    print("")
-    print(".................................")
-    print("      INFORMACIÓN DE LÍNEA")
-    print(".................................")
-    
-    print("Ingrese el número de línea:")
-    
-    let numero = Int(readLine() ?? "") ?? 0
-    
-    switch numero {
-        
-    case 1:
-        print("")
-        print("LÍNEA 1")
-        print("Ruta: Villa El Salvador - San Juan de Lurigancho")
-        print("Cantidad de estaciones: \(estacionesLinea1.count)")
-        
-    case 2:
-        print("")
-        print("LÍNEA 2")
-        print("Ruta: Ate - Callao")
-        print("Cantidad de estaciones: \(estacionesLinea2.count)")
-        
-    case 3:
-        print("")
-        print("LÍNEA 3")
-        print("Proyecto para conectar diferentes zonas de Lima.")
-        print("Estaciones registradas: \(estacionesLinea3.count)")
-        
-    case 4:
-        print("")
-        print("LÍNEA 4")
-        print("Proyecto para conectar Lima y Callao.")
-        print("Estaciones registradas: \(estacionesLinea4.count)")
-        
-    default:
-        print("")
-        print("Línea no válida.")
-    }
-}
-
-
-// REQUERIMIENTO 5
-// RAMA homeY
-// PREGUNTAS FRECUENTES
-
-func homeY() {
-    
-    print("")
-    print("..............................")
-    print("             HOME Y")
-    print("       PREGUNTAS FRECUENTES")
-    print("...............................")
-    
-    print("")
-    print("1. ¿Cuántas líneas tiene el programa?")
-    print("2. ¿Qué es la Línea 1?")
-    print("3. ¿Qué es la Línea 2?")
-    print("4. ¿Cómo busco una estación?")
-    print("5. ¿Cuál es el horario del Metro?")
-    
-    print("")
-    print("Seleccione una pregunta:")
-    
-    let opcion = Int(readLine() ?? "") ?? 0
-    
-    switch opcion {
-        
-    case 1:
-        print("")
-        print("El programa contiene información de 4 líneas.")
-        
-    case 2:
-        print("")
-        print("La Línea 1 conecta Villa El Salvador con San Juan de Lurigancho.")
-        
-    case 3:
-        print("")
-        print("La Línea 2 conecta Ate con el Callao.")
-        
-    case 4:
-        print("")
-        print("Seleccione la opción 3 del menú principal para buscar una estación.")
-        
-    case 5:
-        print("")
-        print("Puede consultar los horarios seleccionando la opción 6 del menú.")
-        
-    default:
-        print("")
-        print("Pregunta no válida.")
-    }
-}
-
-
-
-// REQUERIMIENTO 6
-// HORARIOS DE LAS LÍNEAS
-
-func mostrarHorarios() {
-    
-    print("")
-    print(".................................")
-    print("       HORARIOS DEL METRO")
-    print(".................................")
-    
-    print("1. Línea 1")
-    print("2. Línea 2")
-    print("3. Línea 3")
-    print("4. Línea 4")
-    
-    print("")
-    print("Seleccione una línea:")
-    
-    let opcion = Int(readLine() ?? "") ?? 0
-    
-    switch opcion {
-        
-    case 1:
-        print("")
-        print("LÍNEA 1")
-        print("Horario: 05:00 a.m. - 10:00 p.m.")
-        print("Servicio disponible todos los días.")
-        
-    case 2:
-        print("")
-        print("LÍNEA 2")
-        print("Horario: 05:00 a.m. - 11:00 p.m.")
-        print("Servicio disponible todos los días.")
-        
-    case 3:
-        print("")
-        print("LÍNEA 3")
-        print("Horario referencial: 05:00 a.m. - 11:00 p.m.")
-        print("Línea en proyecto.")
-        
-    case 4:
-        print("")
-        print("LÍNEA 4")
-        print("Horario referencial: 05:00 a.m. - 11:00 p.m.")
-        print("Línea en proyecto.")
-        
-    default:
-        print("")
-        print("Opción incorrecta.")
-    }
-}
-
-
-// MENÚ PRINCIPAL
-
-var continuar = true
-
-while continuar {
-    
-    print("")
-    print(".......................................")
-    print("          METRO DE LIMA")
-    print("........................................")
-    print("1. Mostrar líneas")
-    print("2. Mostrar estaciones")
-    print("3. Buscar estación")
-    print("4. Información de una línea")
-    print("5. Preguntas frecuentes - homeY")
-    print("6. Horarios de las líneas")
-    print("7. Salir")
-    print(".......................................")
-    print("Ingrese una opción:")
-    
-    let opcion = Int(readLine() ?? "") ?? 0
-    
-    switch opcion {
-        
-    case 1:
-        mostrarLineas()
-        
-    case 2:
-        mostrarEstaciones()
-        
-    case 3:
-        buscarEstacion()
-        
-    case 4:
-        informacionLinea()
-        
-    case 5:
-        homeY()
-        
-    case 6:
-        mostrarHorarios()
-        
-    case 7:
-        print("")
-        print(".........................................")
-        print("Gracias por utilizar el programa.")
-        print("..........................................")
-        
-        continuar = false
-        
-    default:
-        print("")
-        print("Opción incorrecta.")
-        print("Seleccione una opción del 1 al 7.")
-    }
-}
-
